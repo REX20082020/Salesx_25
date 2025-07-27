@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaleX_25 - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure the body takes at least the full height of the viewport */
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+        }
+        
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative; /* Added for positioning the number */
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .discount-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #10b981;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .product-number {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #1e293b;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .search-input {
+            border: 2px solid #10b981; /* Changed border color */
+            border-radius: 4px;
+            padding: 10px;
+            width: calc(100% - 2rem);
+            margin: 0 auto;
+            background: white; /* Background color for the input */
+        }
+
+        .suggestions {
+            position: absolute;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            z-index: 10;
+            width: calc(100% - 2rem);
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .suggestion-item {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .suggestion-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        footer {
+            margin-top: auto; /* Push footer to the bottom */
+            background-color: #1e293b; /* Dark background for footer */
+            color: white;
+            padding: 12px 0;
+        }
+
+        .fixed-search {
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 20;
+            padding: 10px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header py-6">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0fb5585b-adfe-455e-a701-29ebe958236f.png" alt="SaleX_25 company logo" class="h-10 w-10 rounded-lg mr-3">
+                    <h1 class="text-2xl font-bold">SaleX_25</h1>
+                </div>
+                <nav>
+                    <ul class="flex space-x-6">
+                        <li><a href="#" class="hover:text-indigo-200 transition">Home</a></li>
+                        <li><a href="#products" class="hover:text-indigo-200 transition" onclick="scrollToProducts()">Products</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-16 bg-gradient-to-r from-indigo-50 to-purple-50">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6">Premium Products For Everyday Excellence</h2>
+                    <p class="text-lg text-slate-600 mb-8">Discover carefully curated products that combine quality, innovation and value.</p>
+                    <a href="#products" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium transition" onclick="scrollToProducts()">Shop Now</a>
+                </div>
+                <div class="md:w-1/2">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f8a440cf-d8aa-4993-a37e-560b263bb235.png" alt="Happy customer unboxing premium product purchased from SaleX_25" class="rounded-lg shadow-xl w-full h-auto">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-16">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-6 text-center">Products</h2>
+            <div class="fixed-search mb-6">
+                <input type="text" id="searchInput" placeholder="Search for products..." class="search-input" onkeyup="filterProducts()">
+                <div id="suggestions" class="suggestions hidden"></div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="productList">
+                <!-- Product cards will be generated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container mx-auto px-4 text-center">
+            <p>© 2023 SaleX_25. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const products = [
+            { id: 1, name: "Pro Wireless Headphones", description: "Active noise cancellation with 30hr battery life", price: 149.99, image: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/3ec23ae8-535f-4187-b9e7-9d6f77b46fb2.png", discount: "25% OFF" },
+            { id: 2, name: "Smart Fitness Watch", description: "Track workouts, heart rate, and sleep patterns", price: 129.99, image: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/06e39dba-4461-47e2-8ca9-4c8535ccc750.png", discount: "NEW" },
+            { id: 3, name: "Waterproof Bluetooth Speaker", description: "20hr battery with IP67 waterproof rating", price: 79.99, image: "https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e9621188-b0bd-4563-b69b-9296040b153e.png", discount: "BESTSELLER" },
+            { id: 4, name: "Gaming Mouse", description: "High precision gaming mouse with customizable buttons", price: 49.99, image: "https://example.com/gaming-mouse.png", discount: "10% OFF" },
+            { id: 5, name: "Mechanical Keyboard", description: "RGB backlit mechanical keyboard for gamers", price: 89.99, image: "https://example.com/mechanical-keyboard.png", discount: "15% OFF" },
+            { id: 6, name: "Portable Charger", description: "Fast charging portable charger with 20000mAh capacity", price: 39.99, image: "https://example.com/portable-charger.png", discount: "5% OFF" },
+            { id: 7, name: "Wireless Earbuds", description: "Compact and lightweight earbuds with noise cancellation", price: 99.99, image: "https://example.com/wireless-earbuds.png", discount: "20% OFF" },
+            { id: 8, name: "Smartphone Stand", description: "Adjustable stand for smartphones and tablets", price: 19.99, image: "https://example.com/smartphone-stand.png", discount: "10% OFF" },
+            { id: 9, name: "Fitness Tracker", description: "Monitor your fitness activities and health metrics", price: 59.99, image: "https://example.com/fitness-tracker.png", discount: "15% OFF" },
+            { id: 10, name: "Laptop Backpack", description: "Durable backpack with multiple compartments", price: 49.99, image: "https://example.com/laptop-backpack.png", discount: "10% OFF" },
+            { id: 11, name: "HD Webcam", description: "1080p HD webcam for video calls and streaming", price: 79.99, image: "https://example.com/hd-webcam.png", discount: "5% OFF" },
+            { id: 12, name: "Bluetooth Speaker", description: "Portable Bluetooth speaker with rich sound", price: 39.99, image: "https://example.com/bluetooth-speaker.png", discount: "10% OFF" },
+            { id: 13, name: "USB-C Hub", description: "Multi-port USB-C hub for laptops and devices", price: 29.99, image: "https://example.com/usb-c-hub.png", discount: "15% OFF" },
+            { id: 14, name: "Smart LED Bulb", description: "Wi-Fi enabled smart LED bulb with app control", price: 19.99, image: "https://example.com/smart-led-bulb.png", discount: "20% OFF" },
+            { id: 15, name: "Portable SSD", description: "Fast and reliable portable SSD for storage", price: 99.99, image: "https://example.com/portable-ssd.png", discount: "10% OFF" },
+            { id: 16, name: "Action Camera", description: "Compact action camera for adventure enthusiasts", price: 149.99, image: "https://example.com/action-camera.png", discount: "25% OFF" },
+            { id: 17, name: "VR Headset", description: "Immersive virtual reality headset for gaming", price: 299.99, image: "https://example.com/vr-headset.png", discount: "15% OFF" },
+            { id: 18, name: "Smart Home Hub", description: "Central hub for controlling smart home devices", price: 79.99, image: "https://example.com/smart-home-hub.png", discount: "10% OFF" },
+            { id: 19, name: "Wireless Charger", description: "Fast wireless charger for smartphones", price: 29.99, image: "https://example.com/wireless-charger.png", discount: "5% OFF" },
+            { id: 20, name: "Gaming Headset", description: "Comfortable gaming headset with surround sound", price: 89.99, image: "https://example.com/gaming-headset.png", discount: "20% OFF" },
+            { id: 21, name: "Smart Thermostat", description: "Wi-Fi enabled thermostat for energy savings", price: 199.99, image: "https://example.com/smart-thermostat.png", discount: "15% OFF" },
+            { id: 22, name: "Digital Photo Frame", description: "Wi-Fi connected digital photo frame", price: 129.99, image: "https://example.com/digital-photo-frame.png", discount: "10% OFF" },
+            { id: 23, name: "Electric Toothbrush", description: "Smart electric toothbrush with app connectivity", price: 49.99, image: "https://example.com/electric-toothbrush.png", discount: "5% OFF" },
+            { id: 24, name: "Portable Air Purifier", description: "Compact air purifier for clean air on the go", price: 59.99, image: "https://example.com/portable-air-purifier.png", discount: "10% OFF" },
+            { id: 25, name: "Smart Scale", description: "Bluetooth smart scale for weight tracking", price: 39.99, image: "https://example.com/smart-scale.png", discount: "15% OFF" }
+        ];
+
+        function displayProducts() {
+            const productList = document.getElementById('productList');
+            productList.innerHTML = ''; // Clear existing products
+
+            products.forEach(product => {
+                const productCard = `
+                    <div class="product-card bg-white border border-slate-200 relative">
+                        <div class="product-number">${product.id}</div>
+                        <div class="discount-badge">${product.discount}</div>
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-56 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">${product.name}</h3>
+                            <p class="text-slate-600 mb-4">${product.description}</p>
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <span class="text-lg font-bold text-indigo-600">$${product.price.toFixed(2)}</span>
+                                </div>
+                                <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm">Buy It Now</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                productList.innerHTML += productCard; // Append the product card to the list
+            });
+        }
+
+        function filterProducts() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase();
+            const productList = document.getElementById('productList');
+            const products = productList.getElementsByClassName('product-card');
+            const suggestions = document.getElementById('suggestions');
+            suggestions.innerHTML = ''; // Clear previous suggestions
+
+            for (let i = 0; i < products.length; i++) {
+                const productName = products[i].getElementsByTagName('h3')[0].innerText.toLowerCase();
+                const productId = products[i].getElementsByClassName('product-number')[0].innerText.toLowerCase();
+                if (productName.includes(filter) || productId.includes(filter)) {
+                    products[i].style.display = '';
+                    const suggestionItem = document.createElement('div');
+                    suggestionItem.className = 'suggestion-item';
+                    suggestionItem.innerText = `${productId} - ${productName}`;
+                    suggestionItem.onclick = () => {
+                        input.value = productName; // Set input value to suggestion
+                        suggestions.innerHTML = ''; // Clear suggestions
+                        filterProducts(); // Filter products based on selected suggestion
+                    };
+                    suggestions.appendChild(suggestionItem);
+                } else {
+                    products[i].style.display = 'none';
+                }
+            }
+
+            // Show or hide suggestions based on input
+            if (filter) {
+                suggestions.classList.remove('hidden');
+            } else {
+                suggestions.classList.add('hidden');
+            }
+        }
+
+        function scrollToProducts() {
+            const productsSection = document.getElementById('products');
+            productsSection.scrollIntoView({ behavior: 'smooth' }); // Smooth scroll to the products section
+        }
+
+        // Call the function to display products when the page loads
+        document.addEventListener('DOMContentLoaded', displayProducts);
+    </script>
+</body>
+</html>
